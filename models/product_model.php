@@ -46,6 +46,7 @@ function save($data){
 	$quantity = $data['product_quantity'];
 	$desc = $data['product_desc'];
 	$img = $_FILES['product_img'];
+	$time = date("Y-m-d H:i:s");
 	if(!empty($img)){
 		$newimgname = array();
 	    $img_desc = reArrayFiles($img);
@@ -59,13 +60,14 @@ function save($data){
 				$newfilename = round(microtime(true)) . rand(1,99) . '.' . end($temp);
 				$filetmpname = $img_desc[$i]['tmp_name'];
 				// print_r($folder.$newfilename);
-				$folder = "/var/www/html/20-sept/media/product_logo/";
+				$folder = "/var/www/html/eUgailly/media/product_logo/";
 				// print_r($folder.$newfilename);
 				move_uploaded_file($filetmpname, $folder.$newfilename);
 				array_push($newimgname, $newfilename);
 			}
 			$new_name = json_encode($newimgname);
-			$stmt = "INSERT INTO product (product_name, created_by, category_id, sub_category_id, brand_id, price, quantity, product_description, product_img, modified_by) VALUES ('$product_name','$user_id','$category_id','$sub_category_id','$brand_id','$price','$quantity','$desc','$new_name','$user_id')";
+			echo $stmt = "INSERT INTO product (product_name, created_by, category_id, sub_category_id, brand_id, price, quantity, product_description, product_img, modified_by, modified_on) VALUES ('$product_name','$user_id','$category_id','$sub_category_id','$brand_id','$price','$quantity','$desc','$new_name','$user_id','$time')";
+			// die;
 			$result = mysqli_query($conn,$stmt);
 			if(mysqli_affected_rows($conn)){
 				return $check;
@@ -202,7 +204,7 @@ function update($data){
 				$newfilename = round(microtime(true)) . rand(1,99) . '.' . end($temp);
 				$filetmpname = $img_desc[$i]['tmp_name'];
 				// print_r($filetmpname);
-				$folder = "/var/www/html/20-sept/media/product_logo/";
+				$folder = "/var/www/html/eUgailly/media/product_logo/";
 				move_uploaded_file($filetmpname, $folder.$newfilename);
 				// if (!move_uploaded_file($filetmpname, $folder.$newfilename)) {
 				// 	echo "hi";

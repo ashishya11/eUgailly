@@ -19,7 +19,7 @@ if (isset($_POST) && !empty($_POST)) {
 			echo false;
 		}
 	}
-	if ($_POST['submit'] == "save") {
+	if ($_POST['submit'] == "add") {
 		// echo "<pre>";print_r($_POST);print_r($_FILES);die;
 		$r = save($_POST);
 		// echo "<pre>";print_r($_POST);die;

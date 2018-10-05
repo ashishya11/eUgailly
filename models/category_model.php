@@ -5,11 +5,13 @@ include "../config/db.php";
 		global $conn;
 		$check = true;
 		$uncheck = false;
-		// echo "<pre>"; print_r($data['category']);die;
+		$time = date("Y-m-d H:i:s");
+		// echo "<pre>"; print_r($data);die;
 		$name = $data['category'];
 		$user_id = "1";
-		$stmt = "INSERT INTO category (category_name, created_by) VALUES ('$name','$user_id')";
+		$stmt = "INSERT INTO category (category_name, created_by, modified_by, modified_on) VALUES ('$name','$user_id','$user_id','$time')";
 		$result = mysqli_query($conn,$stmt);
+		// die;
 		if(mysqli_affected_rows($conn)){
 			return $check;
 		}else{

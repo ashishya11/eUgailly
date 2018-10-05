@@ -24,7 +24,8 @@ function save($data){
 	$category_id = $data['category'];
 	$name = $data['sub_category'];
 	$user_id = "1";
-	$stmt = "INSERT INTO sub_category (category_id, sub_category_name, created_by) VALUES ('$category_id','$name','$user_id')";
+	$time = date("Y-m-d H:i:s");
+	$stmt = "INSERT INTO sub_category (category_id, sub_category_name, created_by, modified_by, modified_on) VALUES ('$category_id','$name','$user_id','$user_id','$time')";
 	$result = mysqli_query($conn,$stmt);
 	if(mysqli_affected_rows($conn)){
 		return $check;
@@ -70,11 +71,12 @@ function update($data){
 	global $conn;
 	$check = true;
 	$uncheck = false;
+	$cid = $data['category'];
 	$id = $data['sub_category_id'];
 	$name = $data['sub_category'];
 	$user_id = "2";
 	$time = date("Y-m-d H:i:s");
-	$stmt = "UPDATE sub_category SET sub_category_name = '$name', modified_on = '$time', modified_by = '$user_id' WHERE id = '$id'";
+	$stmt = "UPDATE sub_category SET category_id = '$cid', sub_category_name = '$name', modified_on = '$time', modified_by = '$user_id' WHERE id = '$id'";
 	$result = mysqli_query($conn,$stmt);
 	if(mysqli_affected_rows($conn)){
 		return $check;

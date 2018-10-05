@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 28, 2018 at 09:07 AM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.7
+-- Host: localhost:3306
+-- Generation Time: Oct 05, 2018 at 04:21 PM
+-- Server version: 5.7.23-0ubuntu0.18.04.1
+-- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -33,9 +31,9 @@ CREATE TABLE `brand` (
   `brand_name` varchar(255) NOT NULL,
   `brand_img` varchar(255) NOT NULL,
   `created_by` int(11) NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` int(11) NOT NULL,
-  `modified_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_on` datetime NOT NULL,
   `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '1-Active,0-InActive',
   `delete_status` enum('0','1') NOT NULL DEFAULT '0' COMMENT '1-Deleted,0-NotDeleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -45,13 +43,16 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`id`, `brand_name`, `brand_img`, `created_by`, `created_on`, `modified_by`, `modified_on`, `status`, `delete_status`) VALUES
-(1, 'addias', 'addidas.jpeg', 1, '2018-09-27 10:03:49', 2, '2018-09-28 03:21:11', '1', '0'),
-(2, 'nike', 'nike.jpg', 1, '2018-09-27 10:05:24', 0, '0000-00-00 00:00:00', '1', '0'),
-(3, 'apple', 'apple.png', 1, '2018-09-27 10:06:03', 0, '0000-00-00 00:00:00', '1', '0'),
-(4, 'hotWheels', 'Hot-Wheels-Logo.jpg', 1, '2018-09-27 10:06:18', 2, '2018-09-28 03:11:56', '1', '0'),
-(5, 'samsung', 'samsung-logo.jpeg', 1, '2018-09-27 10:06:46', 0, '0000-00-00 00:00:00', '1', '0'),
-(6, 'books', 'book.png', 1, '2018-09-27 10:07:00', 0, '0000-00-00 00:00:00', '1', '0'),
-(13, 'aaaa', '1538057152.jpg', 1, '2018-09-27 14:05:51', 0, '0000-00-00 00:00:00', '1', '0');
+(1, 'addidas', '1538735986.jpeg', 1, '2018-10-05 16:09:45', 1, '2018-10-05 16:09:45', '1', '0'),
+(2, 'nike', '1538735993.jpg', 1, '2018-10-05 16:09:52', 1, '2018-10-05 16:09:52', '1', '0'),
+(3, 'hotWheels', '1538736002.jpg', 1, '2018-10-05 16:10:02', 1, '2018-10-05 16:10:02', '1', '0'),
+(4, 'samsung', '1538736015.jpeg', 1, '2018-10-05 16:10:15', 1, '2018-10-05 16:10:15', '1', '0'),
+(5, 'apple', '1538736027.png', 1, '2018-10-05 16:10:27', 1, '2018-10-05 16:10:27', '1', '0'),
+(6, 'parker', '1538736239.jpg', 1, '2018-10-05 16:13:58', 1, '2018-10-05 16:13:58', '1', '0'),
+(7, 'classMate', '1538736311.jpg', 1, '2018-10-05 16:15:10', 1, '2018-10-05 16:15:10', '1', '0'),
+(8, 'Sony', '1538736376.jpg', 1, '2018-10-05 16:16:15', 1, '2018-10-05 16:16:15', '1', '0'),
+(9, 'Mercedes', '1538736462.jpg', 1, '2018-10-05 16:17:41', 1, '2018-10-05 16:17:41', '1', '0'),
+(10, 'BMW', '1538736476.jpg', 1, '2018-10-05 16:17:56', 1, '2018-10-05 16:17:56', '1', '0');
 
 -- --------------------------------------------------------
 
@@ -62,9 +63,9 @@ INSERT INTO `brand` (`id`, `brand_name`, `brand_img`, `created_by`, `created_on`
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `category_name` varchar(255) NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `modified_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_on` datetime NOT NULL,
   `modified_by` int(11) NOT NULL,
   `status` enum('1','0') NOT NULL DEFAULT '1' COMMENT '1-Active,0-InActive',
   `delete_status` enum('1','0') NOT NULL DEFAULT '0' COMMENT '1-Deleted,0-NotDeleted'
@@ -75,10 +76,10 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `category_name`, `created_on`, `created_by`, `modified_on`, `modified_by`, `status`, `delete_status`) VALUES
-(1, 'stationary', '2018-09-26 11:50:06', 1, '2018-09-28 03:20:53', 2, '1', '0'),
-(2, 'toy', '2018-09-26 11:50:28', 1, '2018-09-28 03:20:55', 2, '1', '0'),
-(3, 'vehicles', '2018-09-26 11:51:24', 1, '2018-09-28 03:20:56', 2, '1', '0'),
-(4, 'electronics', '2018-09-26 11:51:42', 1, '2018-09-28 03:20:58', 2, '1', '0');
+(1, 'Stationary', '2018-10-05 15:19:18', 1, '2018-10-05 15:22:48', 2, '1', '0'),
+(2, 'electronics', '2018-10-05 15:19:36', 1, '2018-10-05 15:22:44', 2, '1', '0'),
+(3, 'Vehicles', '2018-10-05 15:19:46', 1, '2018-10-05 15:22:39', 2, '1', '0'),
+(4, 'Furniture', '2018-10-05 15:21:06', 1, '2018-10-05 15:22:50', 2, '1', '0');
 
 -- --------------------------------------------------------
 
@@ -97,9 +98,9 @@ CREATE TABLE `product` (
   `price` double NOT NULL,
   `quantity` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` int(11) NOT NULL,
-  `modified_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_on` datetime NOT NULL,
   `status` enum('1','0') NOT NULL DEFAULT '1' COMMENT '1-Active,0-InActive',
   `delete_status` enum('1','0') NOT NULL DEFAULT '0' COMMENT '1-Deleted,0-NotDeleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -115,9 +116,9 @@ CREATE TABLE `sub_category` (
   `category_id` int(11) NOT NULL,
   `sub_category_name` varchar(255) NOT NULL,
   `created_by` int(11) NOT NULL,
-  `created_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` int(11) NOT NULL,
-  `modified_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_on` datetime NOT NULL,
   `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '1-Active,0-InActive',
   `delete_status` enum('0','1') NOT NULL DEFAULT '0' COMMENT '1-Deleted,0-NotDeleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -127,18 +128,21 @@ CREATE TABLE `sub_category` (
 --
 
 INSERT INTO `sub_category` (`id`, `category_id`, `sub_category_name`, `created_by`, `created_on`, `modified_by`, `modified_on`, `status`, `delete_status`) VALUES
-(1, 1, 'book', 1, '2018-09-26 11:53:04', 2, '2018-09-28 03:30:23', '1', '1'),
-(2, 1, 'pen', 1, '2018-09-26 11:53:14', 2, '2018-09-28 03:30:24', '1', '0'),
-(3, 1, 'paper', 1, '2018-09-26 11:53:26', 0, '0000-00-00 00:00:00', '1', '0'),
-(4, 2, 'car', 1, '2018-09-26 11:53:33', 2, '2018-09-26 10:14:07', '1', '0'),
-(5, 2, 'bikes', 1, '2018-09-26 11:53:41', 0, '0000-00-00 00:00:00', '1', '0'),
-(6, 2, 'dolls', 1, '2018-09-26 11:53:58', 0, '0000-00-00 00:00:00', '1', '0'),
-(7, 3, 'cars', 1, '2018-09-26 11:54:10', 2, '2018-09-26 10:14:35', '1', '0'),
-(8, 3, 'sedan', 1, '2018-09-26 11:54:19', 0, '0000-00-00 00:00:00', '1', '0'),
-(9, 4, 'mobiles', 1, '2018-09-26 11:54:32', 0, '0000-00-00 00:00:00', '1', '0'),
-(10, 4, 'laptops', 1, '2018-09-26 11:54:41', 0, '0000-00-00 00:00:00', '1', '0'),
-(11, 4, 'kitchen item', 1, '2018-09-26 11:55:13', 0, '0000-00-00 00:00:00', '1', '0'),
-(12, 4, 'led', 1, '2018-09-26 11:55:45', 0, '0000-00-00 00:00:00', '1', '0');
+(1, 1, 'book', 1, '2018-10-05 15:24:50', 1, '2018-10-05 15:24:50', '1', '0'),
+(2, 1, 'pen', 1, '2018-10-05 15:24:58', 1, '2018-10-05 15:24:58', '1', '0'),
+(3, 1, 'Notebook', 1, '2018-10-05 15:25:09', 1, '2018-10-05 15:25:09', '1', '0'),
+(4, 2, 'appliances', 1, '2018-10-05 15:25:55', 1, '2018-10-05 15:25:55', '1', '0'),
+(5, 2, 'Mobiles', 1, '2018-10-05 15:26:10', 1, '2018-10-05 15:26:10', '1', '0'),
+(6, 2, 'laptops', 1, '2018-10-05 15:26:24', 1, '2018-10-05 15:26:24', '1', '0'),
+(7, 3, 'toys', 1, '2018-10-05 15:27:04', 1, '2018-10-05 15:27:03', '1', '0'),
+(8, 3, '4 Wheeler', 1, '2018-10-05 15:27:21', 2, '2018-10-05 15:31:05', '1', '0'),
+(9, 3, '2 Wheeler', 1, '2018-10-05 15:27:30', 2, '2018-10-05 15:31:12', '1', '0'),
+(10, 3, 'Sedan', 1, '2018-10-05 15:27:37', 2, '2018-10-05 15:31:17', '1', '0'),
+(11, 3, 'Micro', 1, '2018-10-05 15:27:48', 2, '2018-10-05 15:31:21', '1', '0'),
+(12, 4, 'Table', 1, '2018-10-05 15:31:43', 1, '2018-10-05 15:31:43', '1', '0'),
+(13, 4, 'Bed', 1, '2018-10-05 15:31:51', 1, '2018-10-05 15:31:51', '1', '0'),
+(14, 4, 'Dinnig table', 1, '2018-10-05 15:32:07', 1, '2018-10-05 15:32:07', '1', '0'),
+(15, 4, 'Sofa_set', 1, '2018-10-05 15:32:27', 1, '2018-10-05 15:32:27', '1', '0');
 
 -- --------------------------------------------------------
 
@@ -203,33 +207,27 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `sub_category`
 --
 ALTER TABLE `sub_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
