@@ -276,7 +276,8 @@ function list_sub_category(){
 					"</td><td class='select'><span><i class='fas fa-pencil-alt action2' title='"+ EDIT +"'" +
 					" onClick='edit_sub_category("+res[i].id+")'></i></span>" +
 					"<span class='ml-left'><i class='fas fa-exclamation-circle action1' title='"+ STATUS +"'" +
-					" onClick='status_sub_category("+res[i].id+','+res[i].status+")'></i></span><span class='ml-left action'>" +
+					" onClick='status_sub_category("+res[i].id+','+res[i].status+")'></i></span>" + 
+					"<span class='ml-left action'>" +
 					"<i class='fas fa-trash-alt' title='"+ DELETE +"' " +
 					"onClick='delete_sub_category("+res[i].id+")'></i></span></td></tr>";
 				}
@@ -639,6 +640,116 @@ function edit_product(id){
 			$("#product_price").val(price);
 			$("#product_Desc").val(desc);
 			$("#product_name_submit").addClass("hide");
+		}
+	})
+}
+function category_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#category-total").html(result);
+		}
+	})
+}
+function Sub_category_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'sub_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#Sub-category-total").html(result);
+		}
+	})
+}
+function brand_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'brand_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#brand-total").html(result);
+		}
+	})
+}
+function product_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'product_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#product-total").html(result);
+		}
+	})
+}
+function user_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'user_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#user_list").html(result);
+		}
+	})
+}
+function new_user_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'new_user_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#new_user_list").html(result);
+		}
+	})
+}
+function userlist(){
+	var obj, table, counter,data;
+	obj = {};
+	obj.submit = 'userlist';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				table = "<tr>" +
+				"<th>S.No</th><th>Name</th><th>Email</th><th>Citigen</th><th>Action</th></tr>";
+				data = JSON.parse(result);
+				for (var i = 0; i < data.length; i++) {
+					debugger;
+					table += "<tr><td>" + ++counter + "</td><td>" + data[i].firstname +' '+ data[i].lastname + 
+					"</td><td>" + data[i].email + "</td><td>" + data[i].country + "</td><td class='select'>" +
+					"<span><i class='fas fa-exclamation-circle " + 
+					" action1'title='"+ STATUS +"'"  +
+					" onClick='status_user("+data[i].id+','+data[i].status+")'></i></span>" +
+					"<span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' onClick='delete_user("+data[i].id+")'>" +
+					"</i></span></td>";
+				}
+				table += "</tr>";
+				$("#list_user_table").html(table);
+			}
 		}
 	})
 }
