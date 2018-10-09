@@ -1,6 +1,6 @@
 <?php
 $calenderActive = 1;
-include "../header.php";
+include "./header.php";
 ?>
   
     <section class="content-header">
