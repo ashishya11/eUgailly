@@ -4,7 +4,7 @@ const STATUS = 'click here to change status'
 var list2 = [];
 const pic_path = "../media/demo pic/no-image.png"
 $(document).ready(function(){
-	updateClock();
+	// updateClock();
 	// $("#category_name_submit").click(function(){
 	// 	debugger;
 	// 	category_Name();
@@ -14,6 +14,15 @@ $(document).ready(function(){
 	// })
 	$(".file-upload").on('change', function(){
 	    readURL(this);
+	})
+	$("#add_img").click(function(){
+		debugger;
+		$("#slider_form").removeClass("hide");
+	})
+	$("#can-slider").click(function(){
+		debugger;
+		$("#slider_form,#slider_image_update").addClass("hide");
+		$("#slider_image_submit").removeClass("hide");
 	})
 	$("#can-category").click(function(){
 		debugger;
@@ -750,6 +759,125 @@ function userlist(){
 				table += "</tr>";
 				$("#list_user_table").html(table);
 			}
+		}
+	})
+}
+function sliderlist(){
+	var obj, table, counter,data,status,path;
+	obj = {};
+	obj.submit = 'sliderlist';
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			path = "../media/slider/";
+			if (result != '') {
+				table = "<tr>" +
+				"<th>S.No</th><th>Title</th><th>Description</th><th>Image</th><th>Status</th><th>Action</th></tr>";
+				data = JSON.parse(result);
+				for (var i = 0; i < data.length; i++) {
+					debugger;
+					if (data[i].status != 0) {
+						status = "Active";
+					}else{
+						status = "In-Active";
+					}
+					table += "<tr><td>" + ++counter + "</td><td>" + data[i].title +
+					"</td><td>" + data[i].description + "</td><td>"+
+					"<img class='img-cap aa' src='"+path+''+data[i].image+"'>" +
+					"</td><td>" + status + "</td><td class='select'>" +
+					"<span><i class='fas fa-pencil-alt action2'title='"+ EDIT +"'"  +
+					" onClick='edit_slider("+data[i].id+")'></i></span><span class='ml-left'>" +
+					"<i class='fas fa-exclamation-circle " + 
+					" action1'title='"+ STATUS +"'"  +
+					" onClick='status_slider("+data[i].id+','+data[i].status+")'></i></span>" +
+					"<span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' onClick='delete_slider("+data[i].id+")'>" +
+					"</i></span></td>";
+				}
+				table += "</tr>";
+				$("#list_slider_table").html(table);
+			}
+		}
+	})
+}
+function edit_slider(id){
+	debugger;
+	var name,id,img,img_path;
+	var obj = {};
+	obj.id = id;
+	obj.submit = "slider_list";
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			var data = JSON.parse(result);
+			title = data[0].title;
+			img = data[0].image;
+			img_path = "../media/slider/" + img;
+			id = data[0].id;
+			desc = data[0].description;
+			$("#slider_form,#slider_image_update,#add-slider,#can-slider").removeClass("hide");
+			$("#slider_title").val(title);
+			$("#img1").attr('src',img_path);
+			$("#slider_Id").val(id);
+			$("#slider_description").val(desc);
+			$("#slider_image_submit").addClass("hide");
+		}
+	})
+}
+function status_slider(id,status){
+	debugger;
+	var id,status,obj;
+	id = id;
+	status = status;
+	obj = {};
+	obj.id = id;
+	obj.status = status;
+	obj.submit = "update_status";
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			sliderlist();
+		}
+	})
+}
+function delete_slider(id){
+	debugger;
+	var obj = {};
+	obj.id = id;
+	// obj.name = $($(row).parent().parent().children()[1]).text();
+	obj.submit = "delete";
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			if (result == 1) {
+				$("#msg").text("Record deleted successfully..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				window.setTimeout(function(){
+					window.location.replace("./product-name.php");
+				},1000);
+			} else {
+				$("#msg").text("Record doesnot deleted..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+			sliderlist();
 		}
 	})
 }
