@@ -1,0 +1,925 @@
+const DELETE = 'click here to delete'
+const EDIT = 'click here to edit'
+const STATUS = 'click here to change status'
+var list2 = [];
+const pic_path = "../media/demo pic/no-image.png"
+$(document).ready(function(){
+	$("#myInput").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $(".table-hover tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+  	});
+	// updateClock();
+	// $("#category_name_submit").click(function(){
+	// 	debugger;
+	// 	category_Name();
+	// })
+	// $("#login_submit").click(function(){
+	// 	debugger;
+	// })
+	$(".file-upload").on('change', function(){
+	    readURL(this);
+	})
+	$("#add_img").click(function(){
+		debugger;
+		$("#slider_form").removeClass("hide");
+	})
+	$("#can-slider").click(function(){
+		debugger;
+		$("#slider_form,#slider_image_update").addClass("hide");
+		$("#slider_image_submit").removeClass("hide");
+	})
+	$("#can-category").click(function(){
+		debugger;
+		$("#category_name_update,#can-category").addClass("hide");
+		$("#category_name_submit").removeClass("hide");
+	})
+	$("#can-sub-category").click(function(){
+		debugger;
+		$("#sub_category_name_update,#can-sub-category").addClass("hide");
+		$("#sub_category_name_submit").removeClass("hide");
+	})
+	$("#can-brand").click(function(){
+		debugger;
+		$("#brand_name_update,#can-brand").addClass("hide");
+		$("#brand_name_submit").removeClass("hide");
+		$("#img1").attr('src',pic_path);
+	})
+	$("#can-product").click(function(){
+		debugger;
+		$("#product_name_submit").removeClass("hide");
+		$("#product_name_update,#can-product").addClass("hide");
+	})
+});
+var updateClock = function() {
+    function pad(n) {
+        return (n < 10) ? '0' + n : n;
+    }
+
+    var now = new Date();
+    var s = pad(now.getHours()) + ':' +
+            pad(now.getMinutes()) + ':' +
+            pad(now.getSeconds());
+
+    $('#clock').html(s);
+
+    var delay = 1000 - (now % 1000);
+    setTimeout(updateClock, delay);
+};
+var readURL = function(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('.avatar,.avatar1').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+function category_Name(){
+	debugger;
+	var x = $("#category_Name").val();
+	var xlength = x.length;
+	if (x != '' && xlength >= 0) {
+		// category_submit();  // call the submit function.
+		console.log(x +' '+ xlength);
+		return true;
+	} else {
+		// console.log(x +' '+ xlength);
+		return false;
+	}
+}
+function login_check(){
+	debugger;
+	var email = $("#email").val();
+	var passcode = $("#passcode").val();
+	if(email != '' && passcode != ''){
+		console.log("vaild");
+		return 1;
+	} else {
+		console.log("Not_Vaild");
+		return 0;
+	}
+}
+function list_category(){
+	var res, counter, table, status;
+	$.ajax({
+		url:"../controllers/category_controller.php",
+		method:"POST",
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				table = "<tr>" +
+				"<th>S.No</th><th>Category_Name</th><th>Status</th><th>Action</th></tr>";
+				res = JSON.parse(result);
+				for (var i = 0; i < res.length; i++) {
+					debugger;
+					if (res[i].status != 0) {
+						status = "Active";
+					}else{
+						status = "In-Active";
+					}
+					table += "<tr><td>" + ++counter + "</td><td>" + res[i].category_name + 
+					"</td><td>" + status + 
+					"</td><td class='select'><span><i class='fas fa-pencil-alt action2'title='"+ EDIT +"'"  +
+					" onClick='edit_category("+res[i].id+")'></i></span>" +
+					"<span class='ml-left'><i class='fas fa-exclamation-circle action1'title='"+ STATUS +"'"  +
+					" onClick='status_category("+res[i].id+','+res[i].status+")'></i></span><span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' onClick='delete_category("+res[i].id+")'>" +
+					"</i></span></td>";
+				}
+				table += "</tr>";
+				$("#list_category_table").html(table);
+				// window.location.href = "./category-name.php";	
+			} else {
+				$("#msg").text("Category is not defiend yet...");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+		}
+	})
+}
+function delete_category(id){
+	debugger;
+	var obj = {};
+	obj.id = id;
+	// obj.name = $($(row).parent().parent().children()[1]).text();
+	obj.submit = "delete";
+	$.ajax({
+		url:"../controllers/category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			if (result == 1) {
+				$("#msg").text("Record deleted successfully..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				window.setTimeout(function(){
+					window.location.replace("./category-name.php");
+				},1000);
+			} else {
+				$("#msg").text("Record doesnot deleted..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+			list_category();
+		}
+	})
+}
+function edit_category(id){
+	debugger;
+	var name,id;
+	var obj = {};
+	obj.id = id;
+	obj.submit = "check";
+	$.ajax({
+		url:"../controllers/category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			var data = JSON.parse(result);
+			name = data[0].category_name;
+			id = data[0].id;
+			$("#can-category,#category_name_update").removeClass("hide");
+			$("#category_Name").val(name);
+			$("#category_Id").val(id);
+			$("#category_name_submit").addClass("hide");
+		}
+	})
+}
+function category_list(){
+	var res, counter, option;
+	var obj = {};
+	obj.submit = "check";
+	$.ajax({
+		url:"../controllers/sub_category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				res = JSON.parse(result);
+				option = "<select>";
+				for (var i = 0; i < res.length; i++) {
+				option += "<option value="+res[i].id+">" + res[i].category_name + "</option>";	
+				}
+				option += "</select>";
+				$("#category_list").html(option);
+			}
+		}
+	})
+}
+function sub_category_list(){
+	var res, counter, option;
+	var obj = {};
+	obj.submit = "check";
+	$.ajax({
+		url:"../controllers/product_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				list2 = JSON.parse(result);
+				option = "<select>";
+				for (var i = 0; i < list2.length; i++) {
+				option += "<option value="+list2[i].id+">" + list2[i].sub_category_name + "</option>";	
+				}
+				option += "</select>";
+				$("#sub_category_list").html(option);
+			}
+		}
+	})
+}
+function status_category(id,status){
+	debugger;
+	var id,status,obj;
+	id = id;
+	status = status;
+	obj = {};
+	obj.id = id;
+	obj.status = status;
+	obj.submit = "update_status";
+	$.ajax({
+		url:"../controllers/category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			list_category();
+		}
+	})
+}
+function list_sub_category(){
+	debugger;
+	var res, counter, table, status;
+	var obj = {};
+	obj.submit = "list";
+	$.ajax({
+		url:"../controllers/sub_category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				table = "<table style='width: -webkit-fill-available;'><tr>" +
+				"<th>S.No</th><th>Sub_Category_Name</th><th>Category_Name</th><th>Status</th><th>Action</th></tr>";
+				res = JSON.parse(result);
+				// list2.push(res);
+				for (var i = 0; i < res.length; i++) {
+					debugger;
+					if (res[i].status != 0) {
+						status = "Active";
+					}else{
+						status = "In-Active";
+					}
+					table += "<tr><td>" + ++counter + "</td><td>" + res[i].sub_category_name + 
+					"</td><td>" + res[i].category_name +
+					"</td><td>" + status +
+					"</td><td class='select'><span><i class='fas fa-pencil-alt action2' title='"+ EDIT +"'" +
+					" onClick='edit_sub_category("+res[i].id+")'></i></span>" +
+					"<span class='ml-left'><i class='fas fa-exclamation-circle action1' title='"+ STATUS +"'" +
+					" onClick='status_sub_category("+res[i].id+','+res[i].status+")'></i></span>" + 
+					"<span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' " +
+					"onClick='delete_sub_category("+res[i].id+")'></i></span></td></tr>";
+				}
+				table += "</table>";
+				$("#list_sub_category_table").html(table);
+			} else {
+				$("#msg").text("Sub_Category is not defiend yet...");
+				$("#msg").delay(1000).fadeOut();
+			}
+		}
+	})
+}
+function edit_sub_category(id){
+	debugger;
+	var name,id;
+	var obj = {};
+	obj.id = id;
+	obj.submit = "select";
+	$.ajax({
+		url:"../controllers/sub_category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			var data = JSON.parse(result);
+			name = data[0].sub_category_name;
+			cid = data[0].category_id;
+			id = data[0].id;
+			$("#sub_category_name_update,#can-sub-category").removeClass("hide");
+			$("#sub_category_Name").val(name);
+			$("#category_list").val(cid)
+			$("#sub_category_id").val(id);
+			$("#sub_category_name_submit").addClass("hide");
+		}
+	})
+}
+function delete_sub_category(id){
+	debugger;
+	var obj = {};
+	obj.id = id;
+	// obj.name = $($(row).parent().parent().children()[1]).text();
+	obj.submit = "delete";
+	$.ajax({
+		url:"../controllers/sub_category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			if (result == 1) {
+				$("#msg").text("Record deleted successfully..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				window.setTimeout(function(){
+					window.location.replace("./sub-category-name.php");
+				},1000);
+			} else {
+				$("#msg").text("Record doesnot deleted..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+			list_category();
+		}
+	})
+}
+function status_sub_category(id,status){
+	debugger;
+	var id,status,obj;
+	id = id;
+	status = status;
+	obj = {};
+	obj.id = id;
+	obj.status = status;
+	obj.submit = "update_status";
+	$.ajax({
+		url:"../controllers/sub_category_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			list_sub_category();
+		}
+	})
+}
+function list_brand(){
+	var PATH = '../media/brand-logo/';
+	var res, counter, table, status;
+	$.ajax({
+		url:"../controllers/brand_controller.php",
+		method:"POST",
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				table = "<table style='width: -webkit-fill-available;'><tr>" +
+				"<th>S.No</th><th>Brand_Name</th><th>Brand_Logo</th><th>Status</th><th>Action</th></tr>";
+				res = JSON.parse(result);
+				for (var i = 0; i < res.length; i++) {
+					if (res[i].status != 0) {
+						status = "Active";
+					}else{
+						status = "In-Active";
+					}
+					debugger;
+					table += "<tr><td>" + ++counter + "</td><td>" + res[i].brand_name + 
+					"</td><td><img class='img-cap' src='"+PATH+''+res[i].brand_img+"'></td><td>"+ status +"</td>" +
+					"<td class='select'>" +
+					"<span><i class='fas fa-pencil-alt action2'title='"+ EDIT +"'"  +
+					" onClick='edit_brand("+res[i].id+")'></i></span>" +
+					"<span class='ml-left'><i class='fas fa-exclamation-circle action1'title='"+ STATUS +"'"  +
+					" onClick='status_brand("+res[i].id+','+res[i].status+")'></i></span><span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' onClick='delete_brand("+res[i].id+")'>" +
+					"</i></span></td></tr>";
+				}
+				table += "</table>";
+				$("#list_brand_table").html(table);
+				// window.location.href = "./category-name.php";	
+			} else {
+				$("#msg").text("Brand Name is not defiend yet...");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+		}
+	})
+}
+function delete_brand(id){
+	debugger;
+	var obj = {};
+	obj.id = id;
+	// obj.name = $($(row).parent().parent().children()[1]).text();
+	obj.submit = "delete";
+	$.ajax({
+		url:"../controllers/brand_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			if (result == 1) {
+				$("#msg").text("Record deleted successfully..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				window.setTimeout(function(){
+					window.location.replace("./brand-name.php");
+				},1000);
+			} else {
+				$("#msg").text("Record doesnot deleted..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+			list_brand();
+		}
+	})
+}
+function edit_brand(id){
+	debugger;
+	var name,id,img,img_path;
+	var obj = {};
+	obj.id = id;
+	obj.submit = "check";
+	$.ajax({
+		url:"../controllers/brand_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			var data = JSON.parse(result);
+			name = data[0].brand_name;
+			img = data[0].brand_img;
+			img_path = "../media/brand-logo/" + img;
+			id = data[0].id;
+			$("#can-brand,#brand_name_update").removeClass("hide");
+			$("#brand_Name").val(name);
+			$("#img1").attr('src',img_path);
+			$("#brand_Id").val(id);
+			$("#brand_name_submit").addClass("hide");
+		}
+	})
+}
+function status_brand(id,status){
+	debugger;
+	var id,status,obj;
+	id = id;
+	status = status;
+	obj = {};
+	obj.id = id;
+	obj.status = status;
+	obj.submit = "update_status";
+	$.ajax({
+		url:"../controllers/brand_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			list_brand();
+		}
+	})
+}
+function funct(value){
+	
+	console.log(list2);
+}
+function brand_list(){
+	debugger;
+	var res, counter, option;
+	var obj = {};
+	obj.submit = "check_brand";
+	$.ajax({
+		url:"../controllers/product_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				res = JSON.parse(result);
+				option = "<select>";
+				for (var i = 0; i < res.length; i++) {
+				option += "<option value="+res[i].id+">" + res[i].brand_name + "</option>";	
+				}
+				option += "</select>";
+				$("#brand_list").html(option);
+			}
+		}
+	})
+}
+function product_list(){
+	debugger;
+	var res, counter, option, PATH;
+	PATH = "../media/product_logo/";
+	var obj = {};
+	obj.submit = "list_product";
+	$.ajax({
+		url:"../controllers/product_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				table = "<table style='width: -webkit-fill-available;'><tr>" +
+				"<th>S.No</th><th>Product_Name</th><th>Product_Logo</th><th>Status</th><th>Action</th></tr>";
+				res = JSON.parse(result);
+				for (var i = 0; i < res.length; i++) {
+					var a = '';
+					a = res[i].product_img;
+					if (a != '') {
+						var pic = JSON.parse(res[i].product_img);
+					} 
+					if (res[i].status != 0) {
+						status = "Active";
+					}else{
+						status = "In-Active";
+					}
+					debugger;
+					table += "<tr><td>" + ++counter + "</td><td>" + res[i].product_name + 
+					"</td><td><img class='img-cap' src='"+PATH+''+pic[0]+"'></td><td>"+ status +"</td>" +
+					"<td class='select'>" +
+					"<span><i class='fas fa-pencil-alt action2'title='"+ EDIT +"'"  +
+					" onClick='edit_product("+res[i].id+")'></i></span>" +
+					"<span class='ml-left'><i class='fas fa-exclamation-circle action1'title='"+ STATUS +"'"  +
+					" onClick='status_product("+res[i].id+','+res[i].status+")'></i></span><span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' onClick='delete_product("+res[i].id+")'>" +
+					"</i></span></td></tr>";
+				}
+				table += "</table>";
+				$("#list_product_table").html(table);
+				// window.location.href = "./category-name.php";	
+			} else {
+				$("#msg").text("Brand Name is not defiend yet...");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+		}
+	})
+}
+function status_product(id,status){
+	debugger;
+	var id,status,obj;
+	id = id;
+	status = status;
+	obj = {};
+	obj.id = id;
+	obj.status = status;
+	obj.submit = "update_status";
+	$.ajax({
+		url:"../controllers/product_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			product_list();
+		}
+	})
+}
+function delete_product(id){
+	debugger;
+	var obj = {};
+	obj.id = id;
+	// obj.name = $($(row).parent().parent().children()[1]).text();
+	obj.submit = "delete";
+	$.ajax({
+		url:"../controllers/product_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			if (result == 1) {
+				$("#msg").text("Record deleted successfully..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				window.setTimeout(function(){
+					window.location.replace("./product-name.php");
+				},1000);
+			} else {
+				$("#msg").text("Record doesnot deleted..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+			product_list();
+		}
+	})
+}
+function edit_product(id){
+	debugger;
+	var name,id,img,img_path;
+	var obj = {};
+	obj.id = id;
+	obj.submit = "product_check";
+	$.ajax({
+		url:"../controllers/product_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			var data = JSON.parse(result);
+			name = data[0].product_name;
+			img = data[0].brand_img;
+			img_path = "../media/brand-logo/" + img;
+			id = data[0].id;
+			price = data[0].price;
+			quantatity = data[0].quantity;
+			desc = data[0].product_description;
+			$("#insert-product,#product_name_update,#add-product,#can-product").removeClass("hide");
+			$("#product_Name").val(name);
+			// $("#img1").attr('src',img_path);
+			$("#product_Id").val(id);
+			$("#product_quantity").val(quantatity);
+			$("#product_price").val(price);
+			$("#product_Desc").val(desc);
+			$("#product_name_submit").addClass("hide");
+		}
+	})
+}
+function category_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#category-total").html(result);
+		}
+	})
+}
+function Sub_category_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'sub_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#Sub-category-total").html(result);
+		}
+	})
+}
+function brand_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'brand_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#brand-total").html(result);
+		}
+	})
+}
+function product_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'product_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#product-total").html(result);
+		}
+	})
+}
+function user_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'user_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#user_list").html(result);
+		}
+	})
+}
+function new_user_total(){
+	var obj;
+	obj = {};
+	obj.submit = 'new_user_total';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			$("#new_user_list").html(result);
+		}
+	})
+}
+function userlist(){
+	var obj, table, counter,data;
+	obj = {};
+	obj.submit = 'userlist';
+	$.ajax({
+		url:"../controllers/home_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			if (result != '') {
+				table = "<tr>" +
+				"<th>S.No</th><th>Name</th><th>Email</th><th>Citigen</th><th>Action</th></tr>";
+				data = JSON.parse(result);
+				for (var i = 0; i < data.length; i++) {
+					debugger;
+					table += "<tr><td>" + ++counter + "</td><td>" + data[i].firstname +' '+ data[i].lastname + 
+					"</td><td>" + data[i].email + "</td><td>" + data[i].country + "</td><td class='select'>" +
+					"<span><i class='fas fa-exclamation-circle " + 
+					" action1'title='"+ STATUS +"'"  +
+					" onClick='status_user("+data[i].id+','+data[i].status+")'></i></span>" +
+					"<span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' onClick='delete_user("+data[i].id+")'>" +
+					"</i></span></td>";
+				}
+				table += "</tr>";
+				$("#list_user_table").html(table);
+			}
+		}
+	})
+}
+function sliderlist(){
+	var obj, table, counter,data,status,path;
+	obj = {};
+	obj.submit = 'sliderlist';
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			counter = 0;
+			path = "../media/slider/";
+			if (result != '') {
+				table = "<tr>" +
+				"<th>S.No</th><th>Title</th><th>Description</th><th>Image</th><th>Status</th><th>Action</th></tr>";
+				data = JSON.parse(result);
+				for (var i = 0; i < data.length; i++) {
+					debugger;
+					if (data[i].status != 0) {
+						status = "Active";
+					}else{
+						status = "In-Active";
+					}
+					table += "<tr><td>" + ++counter + "</td><td>" + data[i].title +
+					"</td><td>" + data[i].description + "</td><td>"+
+					"<img class='img-cap aa' src='"+path+''+data[i].image+"'>" +
+					"</td><td>" + status + "</td><td class='select'>" +
+					"<span><i class='fas fa-pencil-alt action2'title='"+ EDIT +"'"  +
+					" onClick='edit_slider("+data[i].id+")'></i></span><span class='ml-left'>" +
+					"<i class='fas fa-exclamation-circle " + 
+					" action1'title='"+ STATUS +"'"  +
+					" onClick='status_slider("+data[i].id+','+data[i].status+")'></i></span>" +
+					"<span class='ml-left action'>" +
+					"<i class='fas fa-trash-alt' title='"+ DELETE +"' onClick='delete_slider("+data[i].id+")'>" +
+					"</i></span></td>";
+				}
+				table += "</tr>";
+				$("#list_slider_table").html(table);
+			}
+		}
+	})
+}
+function edit_slider(id){
+	debugger;
+	var name,id,img,img_path;
+	var obj = {};
+	obj.id = id;
+	obj.submit = "slider_list";
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			var data = JSON.parse(result);
+			title = data[0].title;
+			img = data[0].image;
+			img_path = "../media/slider/" + img;
+			id = data[0].id;
+			desc = data[0].description;
+			$("#slider_form,#slider_image_update,#add-slider,#can-slider").removeClass("hide");
+			$("#slider_title").val(title);
+			$("#img1").attr('src',img_path);
+			$("#slider_Id").val(id);
+			$("#slider_description").val(desc);
+			$("#slider_image_submit").addClass("hide");
+		}
+	})
+}
+function status_slider(id,status){
+	debugger;
+	var id,status,obj;
+	id = id;
+	status = status;
+	obj = {};
+	obj.id = id;
+	obj.status = status;
+	obj.submit = "update_status";
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			sliderlist();
+		}
+	})
+}
+function delete_slider(id){
+	debugger;
+	var obj = {};
+	obj.id = id;
+	// obj.name = $($(row).parent().parent().children()[1]).text();
+	obj.submit = "delete";
+	$.ajax({
+		url:"../controllers/slider_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			if (result == 1) {
+				$("#msg").text("Record deleted successfully..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				window.setTimeout(function(){
+					window.location.replace("./product-name.php");
+				},1000);
+			} else {
+				$("#msg").text("Record doesnot deleted..!");
+				$('#msg').removeAttr("style");
+				$("#msg").delay(1000).fadeOut();
+				// window.setTimeout(function(){
+				// 	window.location.replace("./category-name.php");
+				// },1000);
+			}
+			sliderlist();
+		}
+	})
+}
+function web_setting(){
+	debugger;
+	var obj = {};
+	obj.submit = 'select';
+	$.ajax({
+		url:"../controllers/web_setting_controller.php",
+		method:"POST",
+		data:obj,
+		success:function(result){
+			debugger;
+			var path = "../media/company-logo/";
+			var data = JSON.parse(result);
+			$("#address").val(data[0].address);
+			$("#desc").val(data[0].description);
+			$("#email").val(data[0].email);
+			$("#facebook_url").val(data[0].facebook_url);
+			$("#google_plus_url").val(data[0].google_plus_url);
+			$("#likedin_url").val(data[0].likedIn_url);
+			$("#telephone").val(data[0].telephone);
+			$("#id").val(data[0].id);
+			$("#twitter_url").val(data[0].twitter_url);
+			$("#youtube_url").val(data[0].youtube_url);
+			$("#img1").attr('src',path + data[0].logo);
+		}
+	})
+}
+// function myFunction() {
+//   var value = $(this).val().toLowerCase();
+//     $(".table-hover td").filter(function() {
+//       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+//     });
+// }
+
+
+
+

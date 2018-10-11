@@ -40,15 +40,12 @@
               <div class="contactinfo">
                 <ul class="nav nav-pills">
                   <li>
-                    <a href="#">
-                      <i class="fa fa-phone">
-                      </i> +91 7017249891
+                    <a href="#" id="contactinfo">
+                      
                     </a>
                   </li>
                   <li>
-                    <a href="#">
-                      <i class="fa fa-envelope">
-                      </i> hi.testotest11@gmail.com
+                    <a href="#" id="company_email">
                     </a>
                   </li>
                 </ul>
@@ -101,7 +98,7 @@
             <div class="col-md-4 clearfix">
               <div class="logo pull-left">
                 <a href="eugailly.html">
-                  <img src="images/home/eugailly.png" alt="" />
+                  <img class="imgheight" src="" alt="" id="company_logo" />
                 </a>
               </div>
               <div class="btn-group pull-right clearfix">
@@ -1875,7 +1872,7 @@
                   <span>e
                   </span> Ugailly
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor
+                <p id="companyinfo">
                 </p>
               </div>
             </div>
@@ -1952,7 +1949,7 @@
             <div class="col-sm-3">
               <div class="address">
                 <img src="images/home/map.png" alt="" />
-                <p>B-25 SIDHHI, 3RD FLOOR, SEC-2 NOIDA U.P 201301
+                <p id="company_address">  
                 </p>
               </div>
             </div>
@@ -2123,5 +2120,9 @@
     </script>
     <script src="js/custom.js">
     </script>
+    <script>
+      load();
+    </script>
   </body>
 </html>
+
