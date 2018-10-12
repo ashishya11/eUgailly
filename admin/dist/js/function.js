@@ -10,6 +10,9 @@ $(document).ready(function(){
 	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 	    });
   	});
+  	$(".add").click(function(){
+  		$('.fourm').toggleClass('hide');
+  	})
 	// updateClock();
 	// $("#category_name_submit").click(function(){
 	// 	debugger;
@@ -209,9 +212,9 @@ function category_list(){
 			counter = 0;
 			if (result != '') {
 				res = JSON.parse(result);
-				option = "<select>";
+				option = "<select><option value=''>Select</option>";
 				for (var i = 0; i < res.length; i++) {
-				option += "<option value="+res[i].id+">" + res[i].category_name + "</option>";	
+				option += "<option value="+res[i].id+" >" + res[i].category_name + "</option>";	
 				}
 				option += "</select>";
 				$("#category_list").html(option);
@@ -219,10 +222,11 @@ function category_list(){
 		}
 	})
 }
-function sub_category_list(){
+function sub_category_list(category_id){
 	var res, counter, option;
 	var obj = {};
 	obj.submit = "check";
+	obj.category_id = category_id;
 	$.ajax({
 		url:"../controllers/product_controller.php",
 		method:"POST",
@@ -237,6 +241,7 @@ function sub_category_list(){
 				option += "<option value="+list2[i].id+">" + list2[i].sub_category_name + "</option>";	
 				}
 				option += "</select>";
+
 				$("#sub_category_list").html(option);
 			}
 		}

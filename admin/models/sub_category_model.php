@@ -37,7 +37,7 @@ function list_sub_category(){
 	global $conn;
 	$user = array();
 	$delete_status = "0";
-	$stmt = "SELECT category.category_name, sub_category.sub_category_name, sub_category.id, sub_category.status FROM category, sub_category WHERE category.id = sub_category.category_id";
+	$stmt = "SELECT category.category_name, sub_category.sub_category_name, sub_category.id, sub_category.status FROM sub_category INNER JOIN category ON sub_category.category_id = category.id WHERE sub_category.delete_status = '0' ";
 	$result = mysqli_query($conn,$stmt);
 	if (mysqli_num_rows($result)) {
 	 	while($row = mysqli_fetch_assoc($result)){

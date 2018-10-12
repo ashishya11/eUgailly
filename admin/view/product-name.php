@@ -4,55 +4,53 @@ $productActive = 1;
 include "./header.php";
 ?>
 
-	<section class="content-header">
-      <h1>
-        Product
-        <small>Version 2.0</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="home.php"><i class="fa fa-Product"></i> eUgailly</a></li>
-        <li class="active">Product</li>
-      </ol>
-    </section>
-    <section class="topmargin">
+<section class="content-header">
+  
 </section>
-    <section class="content">
-    	<div class="row">
-		<div class="col-lg-12">
-			<!-- <input type="submit" name="submit" value="Add_New" class="btn btn-primary" id="add-product"> -->
-			<hr>
-		</div>
-	</div>
-	<div class="row mt-2">
-		<div class="col-lg-8">
-      <div class="box">
-        <div class="box-header">
-          <h3 class="box-title">Product_List
-          </h3>
-          <div class="box-tools">
-            <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" id="myInput" class="form-control pull-right" placeholder="Search">
-              <div class="input-group-btn">
-                <button type="submit" class="btn btn-default">
-                  <i class="fa fa-search">
-                  </i>
-                </button>
-              </div>
-            </div>
-          </div>
+<!-- <section class="topmargin">
+</section> -->
+<section class="content">
+	<div class="row">
+    <div class="col-lg-4">
+          <h1>Product Listing</h1>
+          <ol class="breadcrumb">
+            <li><a href="home.php"><i class="fa fa-Product"></i> eUgailly</a></li>
+            <li class="active">Product</li>
+          </ol>
+          
+      <hr>
+    </div>
+    <div class="col-lg-4">
+      <div class="input-group input-group-sm" style="/* width: 150px; */margin-top: 5em;/* margin-left: 18em; */">
+        <input type="text" id="myInput" class="form-control pull-right" placeholder="Search">
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default">
+            <i class="fa fa-search">
+            </i>
+          </button>
         </div>
-        <!-- /.box-header -->
-        <div class="box-body table-responsive no-padding">
-          <table class="table table-hover">
-            <tbody id="list_product_table">
-            </tbody>
-          </table>
-        </div>
-        <!-- /.box-body -->
       </div>
-    </div>  
-		<div class="col-lg-4">
-			<div class="box box-primary">
+    </div>
+    <div class="col-lg-4">
+      <div class="input-group input-group-sm" style="width: 150px;margin-top: 5em;margin-left: 20em;">
+        <!-- <input type="text" id="myInput" class="form-control pull-right" placeholder="Search"> -->
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-primary add">
+            <i class="fa fa-plus">
+               ADD NEW </i></button>
+        </div>
+        <div class="input-group-btn hide divs">
+          <button type="submit" class="btn btn-primary can">
+            <i class="fa fa-window-close">
+               CANCEL </i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+	<div class="row mt-2" style="padding-left: 2em; padding-right: 2em;">
+    <div class="col-lg-1"></div>
+		<div class="col-lg-10 fourm hide">
+      <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Product</h3>
             </div>
@@ -60,13 +58,13 @@ include "./header.php";
             <!-- form start -->
             <form role="form" action="../controllers/product_controller.php" method="POST" enctype="multipart/form-data">
               <div class="box-body">
-                <div class="form-group" onchange="sub_category_list();">
+                <div class="form-group">
                   <label for="Category">Category</label>
                   <select class="form-control mb-2" id="category_list" name="category">
               
                   </select>
                 </div>
-                <div class="form-group" onchange="brand_list();">
+                <div class="form-group">
                   <label for="Category">Sub_Category</label>
                   <select class="form-control mb-2" id="sub_category_list" name="sub_category">
               
@@ -109,16 +107,43 @@ include "./header.php";
               </div>
             </form>
           </div> 
-		</div>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-12">
+      <div class="box">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Product_List
+          </h3> -->
+          <div class="box-tools">
+            
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+            <tbody id="list_product_table">
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>  
+		
 	</div>
-    </section>
+</section>
 	
 <?php
 include "./footer.php";
 ?>
 <script>
 	category_list();
-	// sub_category_list();
-	// brand_list();
+	brand_list();
 	product_list();
+  $(document).ready(function(){
+      $('#category_list').change(function(){
+        var category_id = this.value;
+        sub_category_list(category_id);
+      });
+  });
+  
 </script>		

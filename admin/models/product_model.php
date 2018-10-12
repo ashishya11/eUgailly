@@ -4,7 +4,8 @@ function check($data){
 	global $conn;
 	$user = array();
 	$delete_status = "0";
-	$stmt = "SELECT * FROM sub_category WHERE delete_status = '$delete_status'";
+	$cid = $data['category_id'];
+	$stmt = "SELECT * FROM sub_category WHERE category_id = '$cid' AND delete_status = '$delete_status'";
 	$result = mysqli_query($conn,$stmt);
 	if (mysqli_num_rows($result)) {
 	 	while($row = mysqli_fetch_assoc($result)){
