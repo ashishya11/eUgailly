@@ -1,4 +1,5 @@
 <?php
+include "controller/home-controller/home-controller.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -274,14 +275,17 @@
           <div class="col-sm-12">
             <div id="slider-carousel" class="carousel slide" data-ride="carousel">
               <ol class="carousel-indicators">
-                <li data-target="#slider-carousel" data-slide-to="0" class="active">
+                <?php $i=0;
+                foreach($slider_data as $slider){ ?>
+                <li data-target="#slider-carousel" data-slide-to="<?php echo $i;?>" class="active">
                 </li>
-                <li data-target="#slider-carousel" data-slide-to="1">
-                </li>
-                <li data-target="#slider-carousel" data-slide-to="2">
-                </li>
+                <!-- <li data-target="#slider-carousel" data-slide-to="1"></li>
+                <li data-target="#slider-carousel" data-slide-to="2"></li> -->
+               
+              <?php $i++;} ?>
               </ol>
               <div class="carousel-inner">
+                <?php foreach($slider_data as $slider){  ?>
                 <div class="item active">
                   <div class="col-sm-6">
                     <h1>
@@ -300,7 +304,8 @@
                     <img src="images/home/images.png"  class="pricing" alt="" />
                   </div>
                 </div>
-                <div class="item">
+              <?php } ?>
+                <!-- <div class="item">
                   <div class="col-sm-6">
                     <h1>
                       <span>
@@ -335,7 +340,7 @@
                     <img src="images/home/girl2.jpg" class="girl img-responsive" alt="" />
                     <img src="images/home/images.png" class="pricing" alt="" />
                   </div>
-                </div>
+                </div> -->
               </div>
               <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
                 <i class="fa fa-angle-left">

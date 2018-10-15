@@ -6,48 +6,72 @@ include "./header.php";
 ?>
 <!-- <div class="container"> -->
 <section class="content-header">
-  <h1>
-    Category
-    <small>Version 2.0
-    </small>
-  </h1>
-  <ol class="breadcrumb">
-    <li>
-      <a href="home.php">
-        <i class="fa fa-category">
-        </i> eUgailly
-      </a>
-    </li>
-    <li class="active">Category
-    </li>
-  </ol>
-</section>
-<section class="topmargin">
 </section>
 <section class="content">
-  <div class="row">
-    <div class="col-lg-12">
-      <h3 id="msg">
-      </h3>
+  <div class="row" style="padding-left: 2em; padding-right: 2em;">
+    <div class="col-lg-4">
+          <h1>Category Listing</h1>
+          <ol class="breadcrumb">
+            <li><a href="home.php"><i class="fa fa-tachometer-alt"></i> Home</a></li>
+            <li class="active">category</li>
+          </ol>
+          
+      <hr>
+    </div>
+    <div class="col-lg-4">
+      <div class="input-group input-group-sm" style="/* width: 150px; */margin-top: 5em;/* margin-left: 18em; */">
+        <input type="text" id="myInput" class="form-control pull-right" placeholder="Search">
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default">
+            <i class="fa fa-search">
+            </i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="input-group input-group-sm" style="width: 150px;margin-top: 5em;margin-left: 20em;">
+        <!-- <input type="text" id="myInput" class="form-control pull-right" placeholder="Search"> -->
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-primary add">
+            <i class="fa fa-plus">
+               ADD NEW </i></button>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row mt-2">
-    <div class="col-lg-8">
-      <div class="box">
-        <div class="box-header">
-          <h3 class="box-title">Category_List
+  <div class="row" style="padding-left: 2em; padding-right: 2em;">
+    <div class="col-lg-12 fourm hide">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Category Name
           </h3>
-          <div class="box-tools">
-            <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" id="myInput" class="form-control pull-right" placeholder="Search">
-              <div class="input-group-btn">
-                <button type="submit" class="btn btn-default">
-                  <i class="fa fa-search">
-                  </i>
-                </button>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" role="form" action="../controllers/category_controller.php" method="POST" onsubmit="return category_Name();">
+          <div class="box-body">
+            <div class="form-group">
+              <label for="Category_Name" class="col-sm-3 control-label">Category Name
+              </label>
+              <div class="col-sm-7">
+                <input type="text" name="category" class="form-control" id="category_Name" placeholder="Category_Name"> 
               </div>
-            </div>
+            </div>  
+          </div>    
+          <div class="box-footer">    
+            <input type="hidden" name="category_Id" class="form-control" id="category_Id">
+            <input type="submit" name="submit" value="add" class="mt-2 btn btn-primary" id="category_name_submit">
+            <input type="submit" name="submit" value="update" class="mt-2 btn btn-primary hide" id="category_name_update">
+            <input type="button" name="submit" value="Cancel" onclick="reset();" class="mt-2 btn btn-secondary can" id="can-category"> 
           </div>
+          <!-- /.box-body -->
+        </form>
+      </div>  
+    </div>
+    <div class="col-lg-12">
+      <div class="box">
+        <div class="box-header"> 
         </div>
         <!-- /.box-header -->
         <div class="box-body table-responsive no-padding">
@@ -57,45 +81,6 @@ include "./header.php";
           </table>
         </div>
         <!-- /.box-body -->
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <!-- <div class="card hide" id="insert-category">
-<div class="card-body">
-<form class="form-group" action="../controllers/category_controller.php" method="POST" onsubmit="return category_Name();">
-<h4>Category_Name</h4>
-<input type="text" name="category" class="form-control" id="category_Name" placeholder="Category_Name">
-<input type="hidden" name="category_Id" class="form-control" id="category_Id">
-<input type="submit" name="submit" value="add" class="mt-2 btn btn-primary" id="category_name_submit">
-<input type="submit" name="submit" value="update" class="mt-2 btn btn-primary hide" id="category_name_update">
-</form>
-</div>
-<input type="submit" name="submit" value="submit" class="mt-2 btn btn-primary" id="category_name_submit">
-<input type="submit" name="submit" value="Cancel" class="mt-2 btn btn-secondary can-category" id="can-category">
-</div>   -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Category_Name
-          </h3>
-        </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form role="form" action="../controllers/category_controller.php" method="POST" onsubmit="return category_Name();">
-          <div class="box-body">
-            <div class="form-group">
-              <label for="Category_Name">Category_Name
-              </label>
-              <input type="text" name="category" class="form-control" id="category_Name" placeholder="Category_Name">
-            </div>
-            <input type="hidden" name="category_Id" class="form-control" id="category_Id">
-            <input type="submit" name="submit" value="add" class="mt-2 btn btn-primary" id="category_name_submit">
-            <input type="submit" name="submit" value="update" class="mt-2 btn btn-primary hide" id="category_name_update">
-            <input type="button" name="submit" value="Cancel" onclick="reset();" class="mt-2 btn btn-secondary hide" id="can-category"> 
-          </div>
-          <!-- /.box-body -->
-        </form>
-        <div class="box-footer">
-        </div>
       </div>
     </div>
   </div>

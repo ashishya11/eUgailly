@@ -1,5 +1,6 @@
 <?php
-
+// ini_set('display_errors', true);
+ini_set('display_errors', 1);
 $conn = new mysqli("localhost","root","password","eUgailly");
 if($conn->connect_error)
 {

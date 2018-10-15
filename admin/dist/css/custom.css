@@ -23,6 +23,9 @@
 th ,td{
 	text-align: center;
 }
+th{
+    color: #3c8dbc;
+}
 .img-cap{
 	border: 1px solid #ddd;
     border-radius: 20px;
@@ -45,6 +48,9 @@ th ,td{
 .topmargin{
     margin-top: 4em;
 }
+tr:nth-child(even) {
+   background-color: #f2f2f2
+}s
 /*.control-carousel {
     position: absolute;
     top: 40%;

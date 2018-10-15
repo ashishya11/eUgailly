@@ -16,9 +16,9 @@ if (isset($_POST) && !empty($_POST)) {
 	if ($_POST['submit']== 'user_total') {
 		$r = user_total();
 	}
-	if ($_POST['submit']== 'new_user_total') {
-		$r = new_user_total();
-	}
+	// if ($_POST['submit']== 'new_user_total') {
+	// 	$r = new_user_total();
+	// }
 	if ($_POST['submit']== 'userlist') {
 		$r = userlist();
 		if ($r) {

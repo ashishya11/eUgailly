@@ -7,14 +7,12 @@ include "./header.php";
 <section class="content-header">
   
 </section>
-<!-- <section class="topmargin">
-</section> -->
 <section class="content">
 	<div class="row">
     <div class="col-lg-4">
           <h1>Product Listing</h1>
           <ol class="breadcrumb">
-            <li><a href="home.php"><i class="fa fa-Product"></i> eUgailly</a></li>
+            <li><a href="home.php"><i class="fa fa-Product"></i> Home</a></li>
             <li class="active">Product</li>
           </ol>
           
@@ -35,14 +33,9 @@ include "./header.php";
       <div class="input-group input-group-sm" style="width: 150px;margin-top: 5em;margin-left: 20em;">
         <!-- <input type="text" id="myInput" class="form-control pull-right" placeholder="Search"> -->
         <div class="input-group-btn">
-          <button type="submit" class="btn btn-primary add">
+          <button type="submit" onclick="reset();" class="btn btn-primary add">
             <i class="fa fa-plus">
                ADD NEW </i></button>
-        </div>
-        <div class="input-group-btn hide divs">
-          <button type="submit" class="btn btn-primary can">
-            <i class="fa fa-window-close">
-               CANCEL </i></button>
         </div>
       </div>
     </div>
@@ -103,7 +96,7 @@ include "./header.php";
                 <input type="hidden" name="product_Id" class="form-control" id="product_Id">
                 <input type="submit" name="submit" value="add" class="mt-2 btn btn-primary" id="product_name_submit">
                 <input type="submit" name="submit" value="update" class="mt-2 btn btn-primary hide" id="product_name_update">
-                <input type="button" value="Cancel" onclick="reset();" class="mt-2 btn btn-secondary hide" id="can-product"> 
+                <input type="button" value="Cancel" onclick="reset();" class="mt-2 btn btn-secondary hide can" id="can-product"> 
               </div>
             </form>
           </div> 
@@ -139,6 +132,7 @@ include "./footer.php";
 	category_list();
 	brand_list();
 	product_list();
+  // sub_category_list();
   $(document).ready(function(){
       $('#category_list').change(function(){
         var category_id = this.value;
